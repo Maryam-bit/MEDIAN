@@ -26,7 +26,7 @@ $ npm install
 # watch mode
 $ npm run start:dev
 
-# production mode
+# install postgres
 $ docker compose up dev-db -d
 ```
 
