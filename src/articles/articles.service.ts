@@ -7,6 +7,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class ArticlesService {
   constructor(private prisma: PrismaService) {}
   create(createArticleDto: CreateArticleDto) {
+    return this.prisma.article.create({ data: createArticleDto });
     return 'This action adds a new article';
   }
 
@@ -23,7 +24,10 @@ export class ArticlesService {
   }
 
   update(id: number, updateArticleDto: UpdateArticleDto) {
-    return `This action updates a #${id} article`;
+    return this.prisma.article.update({
+      where: { id },
+      data: updateArticleDto,
+    });
   }
 
   remove(id: number) {
