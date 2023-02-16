@@ -11,7 +11,7 @@
 
 ## Description
 
-Creating Todo Application (in Development), in order to learn Nest JS
+Creating Blog Application (in Development), to learn Nest JS
 
 ## Getting Started
 
