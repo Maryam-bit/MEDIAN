@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get } from '@nestjs/common';
+import { Controller, Post, Body } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthDto } from './dto/auth.dto';
 import { ApiTags } from '@nestjs/swagger';
@@ -7,12 +7,12 @@ import { ApiTags } from '@nestjs/swagger';
 @ApiTags('Auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
-  @Get()
+  @Post('signup')
   signup(@Body() authDto: AuthDto) {
     return this.authService.signup(authDto);
   }
 
-  @Post()
+  @Post('signin')
   signin(@Body() authDto: AuthDto) {
     return this.authService.signin(authDto);
   }
