@@ -1,18 +1,18 @@
 -- CreateTable
-CREATE TABLE "User" (
+CREATE TABLE "users" (
     "id" SERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
     "fullName" TEXT,
-    "userName" TEXT NOT NULL,
+    "userName" TEXT,
 
-    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "users_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "Article" (
+CREATE TABLE "articles" (
     "id" SERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -20,12 +20,16 @@ CREATE TABLE "Article" (
     "description" TEXT,
     "body" TEXT NOT NULL,
     "published" BOOLEAN NOT NULL DEFAULT false,
+    "userId" INTEGER NOT NULL,
 
-    CONSTRAINT "Article_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "articles_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Article_title_key" ON "Article"("title");
+CREATE UNIQUE INDEX "articles_title_key" ON "articles"("title");
+
+-- AddForeignKey
+ALTER TABLE "articles" ADD CONSTRAINT "articles_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

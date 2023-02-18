@@ -10,26 +10,36 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model User {
-  id        Int @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  email     String @unique
-  password  String
-  
-  fullName  String?
-  userName  String
+  email    String @unique
+  password String
+
+  fullName String?
+  userName String?
+  articles  Article[]
+
+  // maps the name of model with users
+  @@map("users")
 }
 
 model Article {
-  id Int @id @default(autoincrement())
-  createdAt   DateTime @default(now())
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  title String @unique
+  title       String  @unique
   description String?
   body        String
   published   Boolean @default(false)
+
+  // because 1 user has many articles
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+
+  // maps the name of model with articles
+  @@map("articles")
 }
