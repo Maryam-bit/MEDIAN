@@ -36,6 +36,15 @@ export class AuthService {
   }
 
   signin(dto: AuthDto) {
+    // find the user by email
+
+    // throw exception if user doesn't exists
+
+    // compare password
+
+    // if password incorrect throw exception
+
+    // send user back
     return `This action returns all auth`;
   }
 }
