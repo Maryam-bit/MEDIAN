@@ -1,7 +1,7 @@
 import { User } from './entities/user.entity';
 import { JwtGuard } from './../auth/guard/jwt.guard';
 import { ApiTags } from '@nestjs/swagger';
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Controller, Get, Patch, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { GetUser } from 'src/auth/decorator';
 
@@ -14,4 +14,7 @@ export class UserController {
   getMe(@GetUser() user: User) {
     return user;
   }
+
+  @Patch()
+  editUser() {}
 }
