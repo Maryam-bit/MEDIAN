@@ -1,3 +1,4 @@
+import { JwtGuard } from './../auth/guard/jwt.guard';
 import { ApiTags } from '@nestjs/swagger';
 import {
   Controller,
@@ -7,38 +8,43 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { ArticlesService } from './articles.service';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
 
 @ApiTags('articles')
+@UseGuards(JwtGuard)
 @Controller('articles')
 export class ArticlesController {
   constructor(private readonly articlesService: ArticlesService) {}
 
   @Post()
-  create(@Body() createArticleDto: CreateArticleDto) {
-    return this.articlesService.create(createArticleDto);
+  createBookmark(@Body() createArticleDto: CreateArticleDto) {
+    return this.articlesService.createBookmark(createArticleDto);
   }
 
   @Get()
-  findAll() {
-    return this.articlesService.findAll();
+  getArticles() {
+    return this.articlesService.getArticles();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.articlesService.findOne(+id);
+  getBookmarkById(@Param('id') id: string) {
+    return this.articlesService.getBookmarkById(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateArticleDto: UpdateArticleDto) {
-    return this.articlesService.update(+id, updateArticleDto);
+  editBookmarkById(
+    @Param('id') id: string,
+    @Body() updateArticleDto: UpdateArticleDto,
+  ) {
+    return this.articlesService.editBookmarkById(+id, updateArticleDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.articlesService.remove(+id);
+  deleteBookmarkById(@Param('id') id: string) {
+    return this.articlesService.deleteBookmarkById(+id);
   }
 }

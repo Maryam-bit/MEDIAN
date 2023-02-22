@@ -4,23 +4,23 @@ import { UpdateArticleDto } from './dto/update-article.dto';
 
 @Injectable()
 export class ArticlesService {
-  create(createArticleDto: CreateArticleDto) {
+  createBookmark(createArticleDto: CreateArticleDto) {
     return 'This action adds a new article';
   }
 
-  findAll() {
+  getArticles() {
     return `This action returns all articles`;
   }
 
-  findOne(id: number) {
+  getBookmarkById(id: number) {
     return `This action returns a #${id} article`;
   }
 
-  update(id: number, updateArticleDto: UpdateArticleDto) {
+  editBookmarkById(id: number, updateArticleDto: UpdateArticleDto) {
     return `This action updates a #${id} article`;
   }
 
-  remove(id: number) {
+  deleteBookmarkById(id: number) {
     return `This action removes a #${id} article`;
   }
 }
