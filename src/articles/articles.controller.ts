@@ -9,42 +9,50 @@ import {
   Param,
   Delete,
   UseGuards,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { ArticlesService } from './articles.service';
-import { CreateArticleDto } from './dto/create-article.dto';
-import { UpdateArticleDto } from './dto/update-article.dto';
+import { CreateArticleDto, UpdateArticleDto } from './dto';
+import { GetUser } from 'src/auth/decorator';
 
 @ApiTags('articles')
 @UseGuards(JwtGuard)
 @Controller('articles')
 export class ArticlesController {
-  constructor(private readonly articlesService: ArticlesService) {}
-
-  @Post()
-  createBookmark(@Body() createArticleDto: CreateArticleDto) {
-    return this.articlesService.createBookmark(createArticleDto);
-  }
+  constructor(private articlesService: ArticlesService) {}
 
   @Get()
-  getArticles() {
-    return this.articlesService.getArticles();
+  getArticles(@GetUser('id') userId: number) {
+    return this.articlesService.getArticles(userId);
   }
 
   @Get(':id')
-  getBookmarkById(@Param('id') id: string) {
-    return this.articlesService.getBookmarkById(+id);
+  getBookmarkById(
+    @GetUser('id') userId: number,
+    @Param('id', ParseIntPipe) bookmarkId: number,
+  ) {
+    return this.articlesService.getBookmarkById(userId, bookmarkId);
+  }
+
+  @Post()
+  createBookmark(@GetUser('id') userId: number, @Body() dto: CreateArticleDto) {
+    return this.articlesService.createBookmark(userId, dto);
   }
 
   @Patch(':id')
   editBookmarkById(
-    @Param('id') id: string,
-    @Body() updateArticleDto: UpdateArticleDto,
+    @GetUser('id') userId: number,
+    @Param('id', ParseIntPipe) bookmarkId: number,
+    @Body() dto: UpdateArticleDto,
   ) {
-    return this.articlesService.editBookmarkById(+id, updateArticleDto);
+    return this.articlesService.editBookmarkById(userId, bookmarkId, dto);
   }
 
   @Delete(':id')
-  deleteBookmarkById(@Param('id') id: string) {
-    return this.articlesService.deleteBookmarkById(+id);
+  deleteBookmarkById(
+    @GetUser('id') userId: number,
+    @Param('id', ParseIntPipe) bookmarkId: string,
+  ) {
+    return this.articlesService.deleteBookmarkById(+userId, +bookmarkId);
   }
 }

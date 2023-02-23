@@ -1,4 +1,17 @@
-import { PartialType } from '@nestjs/swagger';
-import { CreateArticleDto } from './create-article.dto';
+import { IsNotEmpty, IsString, IsOptional } from 'class-validator';
 
-export class UpdateArticleDto extends PartialType(CreateArticleDto) {}
+export class UpdateArticleDto {
+  @IsString()
+  @IsNotEmpty()
+  @IsOptional()
+  title: string;
+
+  @IsString()
+  @IsOptional()
+  description: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @IsOptional()
+  body: string;
+}
