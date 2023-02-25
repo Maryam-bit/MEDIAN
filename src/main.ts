@@ -11,6 +11,7 @@ async function bootstrap() {
     }),
   );
   const config = new DocumentBuilder()
+    .addBearerAuth()
     .setTitle('Median')
     .setDescription('The Median API description')
     .setVersion('0.1')

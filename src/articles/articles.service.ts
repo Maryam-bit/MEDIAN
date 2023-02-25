@@ -5,8 +5,36 @@ import { CreateArticleDto, UpdateArticleDto } from './dto';
 @Injectable()
 export class ArticlesService {
   constructor(private prisma: PrismaService) {}
-  createBookmark(userId: number, dto: CreateArticleDto) {
-    const article = this.prisma.article.create({
+
+  async getAllArticles() {
+    const articles = await this.prisma.article.findMany({});
+    return articles;
+  }
+
+  async getMyArticles(userId: number) {
+    const articles = await this.prisma.article.findMany({
+      where: {
+        userId,
+      },
+    });
+    return articles;
+  }
+
+  async getArticleById(userId: number, bookmarkId: number) {
+    const article = await this.prisma.article.findFirst({
+      where: {
+        id: bookmarkId,
+        userId,
+      },
+    });
+    if (!article) {
+      throw new ForbiddenException('Unable to found');
+    }
+    return article;
+  }
+
+  async createArticle(userId: number, dto: CreateArticleDto) {
+    const article = await this.prisma.article.create({
       data: {
         userId,
         ...dto,
@@ -15,26 +43,7 @@ export class ArticlesService {
     return article;
   }
 
-  getArticles(userId: number) {
-    const articles = this.prisma.article.findMany({
-      where: {
-        userId,
-      },
-    });
-    return articles;
-  }
-
-  getBookmarkById(userId: number, bookmarkId: number) {
-    const article = this.prisma.article.findFirst({
-      where: {
-        id: bookmarkId,
-        userId,
-      },
-    });
-    return article;
-  }
-
-  async editBookmarkById(
+  async editArticleById(
     userId: number,
     bookmarkId: number,
     dto: UpdateArticleDto,
@@ -57,10 +66,9 @@ export class ArticlesService {
         ...dto,
       },
     });
-    return article;
   }
 
-  async deleteBookmarkById(userId: number, bookmarkId: number) {
+  async deleteArticleById(userId: number, bookmarkId: number) {
     const article = await this.prisma.article.findUnique({
       where: {
         id: bookmarkId,

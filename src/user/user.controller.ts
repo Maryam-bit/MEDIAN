@@ -1,11 +1,12 @@
 import { EditUserDto } from './dto/edit-user.dto';
 import { User } from '@prisma/client';
 import { JwtGuard } from './../auth/guard/jwt.guard';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Body, Controller, Get, Patch, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { GetUser } from 'src/auth/decorator';
 
+@ApiBearerAuth()
 @ApiTags('user')
 @UseGuards(JwtGuard)
 @Controller('users')

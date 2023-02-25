@@ -3,7 +3,6 @@ import { ApiProperty } from '@nestjs/swagger';
 export class UpdateArticleDto {
   @ApiProperty({ required: false })
   @IsString()
-  @IsNotEmpty()
   @IsOptional()
   title: string;
 
@@ -14,7 +13,6 @@ export class UpdateArticleDto {
 
   @ApiProperty({ required: false })
   @IsString()
-  @IsNotEmpty()
   @IsOptional()
   body: string;
 }

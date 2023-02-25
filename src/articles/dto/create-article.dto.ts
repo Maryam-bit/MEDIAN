@@ -11,7 +11,7 @@ export class CreateArticleDto {
   @IsOptional()
   description: string;
 
-  @ApiProperty({ required: false })
+  @ApiProperty()
   @IsString()
   @IsNotEmpty()
   body: string;

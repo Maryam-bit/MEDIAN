@@ -1,5 +1,5 @@
 import { JwtGuard } from './../auth/guard/jwt.guard';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import {
   Controller,
   Get,
@@ -15,6 +15,7 @@ import { ArticlesService } from './articles.service';
 import { CreateArticleDto, UpdateArticleDto } from './dto';
 import { GetUser } from 'src/auth/decorator';
 
+@ApiBearerAuth()
 @ApiTags('articles')
 @UseGuards(JwtGuard)
 @Controller('articles')
@@ -22,37 +23,42 @@ export class ArticlesController {
   constructor(private articlesService: ArticlesService) {}
 
   @Get()
-  getArticles(@GetUser('id') userId: number) {
-    return this.articlesService.getArticles(userId);
+  getAllArticles() {
+    return this.articlesService.getAllArticles();
+  }
+
+  @Get('me')
+  getMyArticles(@GetUser('id') userId: number) {
+    return this.articlesService.getMyArticles(userId);
   }
 
   @Get(':id')
-  getBookmarkById(
+  getArticleById(
     @GetUser('id') userId: number,
     @Param('id', ParseIntPipe) bookmarkId: number,
   ) {
-    return this.articlesService.getBookmarkById(userId, bookmarkId);
+    return this.articlesService.getArticleById(userId, bookmarkId);
   }
 
   @Post()
-  createBookmark(@GetUser('id') userId: number, @Body() dto: CreateArticleDto) {
-    return this.articlesService.createBookmark(userId, dto);
+  createArticle(@GetUser('id') userId: number, @Body() dto: CreateArticleDto) {
+    return this.articlesService.createArticle(userId, dto);
   }
 
   @Patch(':id')
-  editBookmarkById(
+  editArticleById(
     @GetUser('id') userId: number,
     @Param('id', ParseIntPipe) bookmarkId: number,
     @Body() dto: UpdateArticleDto,
   ) {
-    return this.articlesService.editBookmarkById(userId, bookmarkId, dto);
+    return this.articlesService.editArticleById(userId, bookmarkId, dto);
   }
 
   @Delete(':id')
-  deleteBookmarkById(
+  deleteArticleById(
     @GetUser('id') userId: number,
     @Param('id', ParseIntPipe) bookmarkId: string,
   ) {
-    return this.articlesService.deleteBookmarkById(+userId, +bookmarkId);
+    return this.articlesService.deleteArticleById(+userId, +bookmarkId);
   }
 }
